@@ -6,7 +6,7 @@ const AllCoursesView = (props) => {
   if (!courses.length) {
     return (
     <div>
-      <p>There are no courses.</p>
+      <p>There are no courses</p>
       <Link to={`/newcourse`}>
         <button>Add New Course</button>
       </Link>
