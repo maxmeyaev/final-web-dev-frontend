@@ -8,12 +8,17 @@ class TaskContainer extends Component {
     //getting task ID from url
     this.props.fetchTask(this.props.match.params.id);
   }
-
   render() {
+    const { task } = this.props;
     return (
-      <TaskView 
-        task={this.props.task}
-      />
+      <div>
+        { task ? 
+          <TaskView 
+            task={this.props.task}
+            />
+          : <p>No tasks found</p>
+        }
+      </div>
     );
   }
 }

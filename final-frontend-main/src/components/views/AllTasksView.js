@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-
+import { Typography, Button, Box } from '@mui/material';
 const AllTasksView = (props) => {
     let {tasks, deleteTask} = props;
     if (!tasks.length) {
       return (
-      <div>
-        <p>There are no tasks</p>
+      <Box>
+        <Typography variant='h6' sx={{ paddingY: '1em'}}>There are no tasks</Typography>
         <Link to={`/newtask`}>
-          <button>Add New Task</button>
+          <Button variant='contained'>Add New Task</Button>
         </Link>
-      </div>
+      </Box>
       );
     }
     

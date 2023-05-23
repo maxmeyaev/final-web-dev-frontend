@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import NewTaskView from '../views/NewCourseView';
+import NewTaskView from '../views/NewTaskView';
 import { addTaskThunk } from '../../store/thunks';
 
 
@@ -62,7 +62,8 @@ class NewTaskContainer extends Component {
           <NewTaskView 
             handleChange={this.handleChange} 
             handleSubmit={this.handleSubmit}
-            error={this.state.error}      
+            error={this.state.error}    
+            isComplete={this.state.isComplete}  
           />
         );
     }

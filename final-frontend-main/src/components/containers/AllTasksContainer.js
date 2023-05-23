@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchAllTasksThunk, deleteTaskThunk } from '../../store/thunks';
 
-import AllTasksView from '../views/allTasksView';
+import AllTasksView from '../views/AllTasksView';
 
 class AllTasksContainer extends Component {
     componentDidMount() {
