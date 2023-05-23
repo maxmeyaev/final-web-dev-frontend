@@ -1,1 +1,10 @@
-# final-web-dev-project2023
+# final-web-dev-frontend
+
+## Installation
+
+
+```javascript
+npm install
+npm start
+```
+
