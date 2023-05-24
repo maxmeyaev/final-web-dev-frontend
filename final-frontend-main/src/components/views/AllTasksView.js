@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Typography, Button, Box, Card } from '@mui/material';
+import { Typography, Button, Box, Card, Alert } from '@mui/material';
 const AllTasksView = (props) => {
     let {tasks, deleteTask} = props;
     if (!tasks.length) {
       return (
       <Box>
-        <Typography variant='h6' sx={{ paddingY: '1em'}}>There are no tasks</Typography>
+        <Alert severity='warning' sx={{  display: 'flex', justifyContent: 'center', paddingY: '1em'}}>There are no tasks</Alert>
         <Link to={`/newtask`}>
           <Button variant='contained'>Add New Task</Button>
         </Link>
