@@ -33,6 +33,14 @@ export const deleteEmployee = (employee) => {
     };
 }
 
+// Edit a single task
+export const editEmployee = (employee) => {
+    return {
+        type: at.EDIT_EMPLOYEE,
+        payload: employee,
+    };
+};
+
 
 // Fetch all the tasks
 export const fetchAllTasks = (tasks) => {

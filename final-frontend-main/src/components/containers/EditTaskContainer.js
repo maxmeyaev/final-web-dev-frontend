@@ -101,7 +101,7 @@ class EditTaskContainer extends Component {
 
         this.setState({
           redirect: true, 
-          redirectId: this.props.course.id
+          redirectId: this.props.task.id
         });
 
     }

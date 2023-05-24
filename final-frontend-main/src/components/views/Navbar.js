@@ -9,6 +9,7 @@ export default function Navbar() {
                 <Button sx={{ color: '#ffff', backgroundColor: '#64748B', marginX: '2em'}} component={Link} to={`/`}>Home</Button>
                 <Button sx={{ color: '#ffff', backgroundColor: '#64748B', marginX: '2em'}} component={Link} to={`/employees`}>All Employees</Button>
                 <Button sx={{ color: '#ffff', backgroundColor: '#64748B', marginX: '2em'}} component={Link} to={`/tasks`}>All Tasks</Button>
+                <Button sx={{ color: '#ffff', backgroundColor: '#64748B', marginX: '2em'}} component={Link} to={`/newemployee`}>Add New Employee</Button>
             </Box>
         </AppBar>
     </Box>
