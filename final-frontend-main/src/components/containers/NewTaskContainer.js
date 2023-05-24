@@ -29,8 +29,11 @@ class NewTaskContainer extends Component {
     handleSubmit = async event => {
         event.preventDefault();
         //dont need ID because the task has not been created yet
-        if(this.state.description===""){
+        if(this.state.description === ""){
           this.setState({error:"Description field is required"});
+          return;
+        } else if(this.state.priority ===""){
+          this.setState({error:"Priority field is required"});
           return;
         }
         let task = {

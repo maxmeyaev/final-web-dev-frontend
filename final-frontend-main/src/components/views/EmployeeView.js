@@ -10,8 +10,11 @@ const EmployeeView = (props) => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>      
       <Card sx={{ width: 1200}}>
         <CardContent>
-           <Typography variant="h4">{employee.firstname + " " + employee.lastname}</Typography>
+          <Typography variant="h4">{employee.firstname + " " + employee.lastname}</Typography>
           <Typography variant="h6">{employee.department !== null ? employee.department : 'Department has not been specified'}</Typography>
+          <Box sx={{ paddingY: '1em'}}>
+            <Button component={Link} to={`/editemployee/${employee.id}`} variant="outlined">Edit Employee</Button>
+          </Box>
         </CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-around'}}>
         <Card sx={{ width: 400, height: 700, paddingX: '1em'}}>
@@ -23,12 +26,12 @@ const EmployeeView = (props) => {
               <Divider sx={{ paddingY: '0.5em'}}/>
                 {assignedTasks.map( task => {
                   return (
-                  <Box sx={{ paddingTop: '1em'}}>
-                    <div key={task.id} style={{ display: 'flex', alignItems: 'center', justifyContent: "space-around"}}>
+                  <Box sx={{ paddingTop: '1em'}} key={task.id}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-around"}}>
                     <Link to={`/task/${task.id}`}>
                       <Typography variant="h6">{task.description}</Typography>
                     </Link>
-                    <Button variant="contained" color="error" onClick={() => editTask({id:task.id, employeeId: null})}>Delete</Button>
+                    <Button variant="contained" color="error" onClick={() => editTask({ id:task.id, employeeId: null})}>Delete</Button>
                     </div>
                   </Box>
                 );
@@ -45,8 +48,8 @@ const EmployeeView = (props) => {
                 <Divider sx={{ paddingY: '0.5em'}}/>
                   {availableTasks.map( task => {
                   return (
-                    <Box sx={{ paddingTop: '1em'}}>
-                      <div key={task.id} style={{ display: 'flex', alignItems: 'center', justifyContent: "space-around"}}>
+                    <Box sx={{ paddingTop: '1em'}} key={task.id}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-around"}}>
                       <Link to={`/task/${task.id}`}>
                         <Typography variant="h6">{task.description}</Typography>
                       </Link>
