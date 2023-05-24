@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { fetchTaskThunk, editTaskThunk, fetchAllEmployeesThunk  } from '../../store/thunks';
-
+import { Box, TextField, Card, Button, Typography } from '@mui/material'
 
 /*
 IMPORTANT: comments regarding implementation details!!
@@ -133,39 +133,61 @@ class EditTaskContainer extends Component {
         return (
         <div>
         <form style={{textAlign: 'center'}} onSubmit={(e) => this.handleSubmit(e)}>
-            <label style= {{color:'#11153e', fontWeight: 'bold'}}>Description: </label>
-            <input type="text" name="description" value={this.state.description || ''} placeholder={task.description} onChange ={(e) => this.handleChange(e)}/>
-            <br/>
-
-            <label style={{color:'#11153e', fontWeight: 'bold'}}>Priority: </label>
-            <input type="text" name="priority" value={this.state.priority || ''} placeholder={task.priority} onChange={(e) => this.handleChange(e)}/>
-            <br/>
-
-            <select onChange={(e) => this.handleSelectChange(e)}>
-              {task.employee!==null ?
-                <option value={task.employeeId}>{task.employee.firstname+" (current)"}</option>
-              : <option value="staff">Staff</option>
-              }
-              {otherEmployees.map(employee => {
-                return (
-                  <option value={employee.id} key={employee.id}>{employee.firstname}</option>
-                )
-              })}
-              {task.employee!==null && <option value="staff">Staff</option>}
-            </select>
-  
-            <button type="submit">
-              Submit
-            </button>
-
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Card sx={{ width: 600, paddingTop: '1em'}}>
+              <Box sx={{paddingY: '1em'}}>
+                <TextField 
+                  type='text'
+                  name='description'
+                  label='Description'
+                  value={this.state.description || ''}
+                  placeholder={task.description}
+                  onChange ={(e) => this.handleChange(e)}
+                />
+              </Box>
+              <Box sx={{paddingY: '1em'}}>
+                <TextField 
+                  type='text'
+                  name='priority'
+                  label='Priority'
+                  value={this.state.priority || ''}
+                  placeholder={task.priority}
+                  onChange ={(e) => this.handleChange(e)}
+                />
+              </Box>
+              <Box sx={{paddingY: '1em'}}>
+                <select onChange={(e) => this.handleSelectChange(e)}>
+                  {task.employee!==null ?
+                    <option value={task.employeeId}>{task.employee.firstname + " (current)"}</option>
+                  : <option value="staff">Staff</option>
+                  }
+                  {otherEmployees.map(employee => {
+                    return (
+                      <option value={employee.id} key={employee.id}>{employee.firstname}</option>
+                    )
+                  })}
+                  {task.employee!==null && <option value="staff">Staff</option>}
+                </select>
+              </Box>
+              <Box sx={{paddingY: '1em'}}>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Box>
+            </Card>
+          </Box>
           </form>
           { this.state.error !=="" && <p>{this.state.error}</p> }
 
           {task.employeeId !== null ?
-            <div> Current employee:  
-            <Link to={`/employee/${task.employeeId}`}>{task.employee.firstname}</Link>
-            <button onClick={async () => {await editTask({id:task.id, employeeId: null});  fetchTask(task.id)}}>Unassign</button>
-            </div>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
+              <Typography variant='h6' sx={{ paddingX: '0.5em'}}>Current employee: </Typography>
+              <Link to={`/employee/${task.employeeId}`}>{task.employee.firstname}</Link>
+              <Button sx={{ marginX: '1em'}} variant='contained' color='warning' onClick={async () => {await editTask({id:task.id, employeeId: null});  fetchTask(task.id)}}>Unassign</Button>
+            </Box>
             : <div> No employee currently assigned </div>
           }
 
