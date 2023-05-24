@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Typography, Button, Box } from '@mui/material';
+import { Typography, Button, Box, Card } from '@mui/material';
 const AllTasksView = (props) => {
     let {tasks, deleteTask} = props;
     if (!tasks.length) {
@@ -16,20 +16,26 @@ const AllTasksView = (props) => {
     return (
       <div>
         {tasks.map((task) => {
-          let title = task.title;
+          let description = task.description;
           return (
             <div key={task.id}>
-            <Link to={`/task/${task.id}`}>
-              <h1>{title}</h1>
-            </Link>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
+              <Card sx={{ display: 'flex', justifyContent: 'center'}}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Box>
+                    <Link to={`/task/${task.id}`}>
+                      <Typography variant='h4'>{description}</Typography>
+                    </Link>
+                  </Box>
+                  <Box sx={{ marginX: '4em', padding: '1em'}}>
+                    <Button color="error" variant="contained" onClick={() => deleteTask(task.id)}>Delete</Button>
+                    <Button component={Link} to={`/newtask`} variant='contained' sx={{ marginLeft: '3em'}}>Add New Task</Button>
+                  </Box>  
+                </Box>
+              </Card>
             </div>
           );
         }
         )}
-        <Link to={`/newtask`}>
-          <button>Add New Task</button>
-        </Link>
       </div>
     );
   };

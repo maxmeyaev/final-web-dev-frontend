@@ -23,7 +23,7 @@ const AllEmployeesView = (props) => {
                   <Typography variant="h4" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>{name}</Typography>
                 </Box>
               </Link>
-                  <Typography variant="h6" sx={{ marginTop: '1em'}}>{employee.department}</Typography>
+                  <Typography variant="h6" sx={{ marginTop: '1em'}}>{employee.department !== null ? employee.department : 'Department has not been specified'}</Typography>
             </Card>
           </div>
         );

@@ -1,5 +1,5 @@
 import { TextField, Card, Typography, Box, Button } from "@mui/material";
-const NewTaskView = (props) => {
+const NewEmployeeView = (props) => {
     const {handleChange, handleSubmit, error } = props;
     return (
       <div className="root">
@@ -7,30 +7,29 @@ const NewTaskView = (props) => {
           <form style={{display: 'flex', justifyContent: 'center', textAlign: 'center'}} onSubmit={(e) => handleSubmit(e)}>
             <Card sx={{ width: 600, paddingTop: '1em'}}>
             <Typography style={{fontWeight: 'bold', fontFamily: 'Courier, sans-serif', fontSize: '20px', color: '#11153e'}}>
-              New Task
+              New Employee
             </Typography>
               <Box sx={{paddingY: '1em'}}>
                 <TextField 
-                  label="Description"
+                  label="First Name"
                   type="text"
-                  name="description"
+                  name="firstname"
                   onChange ={(e) => handleChange(e)}
                   />
                 </Box>
               <Box sx={{paddingY: '1em'}}>
                 <TextField 
-                  label="Priority"
+                  label="Last Name"
                   type="text"
-                  name="priority"
-                  helperText="Low, Medium, High"
+                  name="lastname"
                   onChange ={(e) => handleChange(e)}
                 />
               </Box>
               <Box sx={{paddingY: '1em'}}>
                 <TextField 
-                  label="Employee ID"
+                  label="Department"
                   type="text"
-                  name="employeeId"
+                  name="department"
                   onChange ={(e) => handleChange(e)}
                 />
               </Box>
@@ -51,4 +50,4 @@ const NewTaskView = (props) => {
     )
   }
   
-  export default NewTaskView;
+  export default NewEmployeeView;

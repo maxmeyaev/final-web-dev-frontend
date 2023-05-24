@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Alert } from '@mui/material'
 import { fetchTaskThunk } from "../../store/thunks";
 import { TaskView } from "../views";
 
@@ -16,7 +17,7 @@ class TaskContainer extends Component {
           <TaskView 
             task={this.props.task}
             />
-          : <p>No tasks found</p>
+          : <Alert severity="warning">No tasks found</Alert>
         }
       </div>
     );

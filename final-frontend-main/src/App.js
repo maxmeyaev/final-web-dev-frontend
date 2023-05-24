@@ -2,6 +2,7 @@ import "./App.css";
 
 //Router
 import { Switch, Route } from "react-router-dom";
+import Navbar  from './components/views/Navbar';
 //Components
 import {
   HomePageContainer,
@@ -11,6 +12,7 @@ import {
   NewTaskContainer,
   EditTaskContainer,
   TaskContainer,
+  NewEmployeeContainer,
 } from './components/containers';
 
 // if you create separate components for adding/editing 
@@ -20,6 +22,7 @@ import {
 const App = () => {
   return (
     <div className="App">
+      <Navbar />
       <Switch>
         <Route exact path="/" component={HomePageContainer} />
         <Route exact path="/employees" component={AllEmployeesContainer} />
@@ -28,6 +31,7 @@ const App = () => {
         <Route exact path="/task/:id" component={TaskContainer} />
         <Route exact path="/newtask" component={NewTaskContainer} />
         <Route exact path="/edittask/:id" component={EditTaskContainer} />
+        <Route exact path="/newemployee" component={NewEmployeeContainer} />
       </Switch>        
     </div>
   );
