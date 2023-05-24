@@ -29,8 +29,8 @@ class NewEmployeeContainer extends Component {
     handleSubmit = async event => {
         event.preventDefault();
         //dont need ID because the task has not been created yet
-        if(this.state.firstname===""){
-          this.setState({error:"First name field is required"});
+        if(this.state.firstname==="" || this.state.lastname==="" || this.state.department===""){
+          this.setState({error:"Please fill out all the fields"});
           return;
         }
         let employee = {

@@ -8,6 +8,8 @@ export const ADD_EMPLOYEE = "ADD_EMPLOYEE";
 
 export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
+export const EDIT_EMPLOYEE = "EDIT_EMPLOYEE";
+
 //Task actions
 export const FETCH_ALL_TASKS = "FETCH_ALL_TASKS";
 
