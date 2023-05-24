@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 
-import { fetchCourseThunk, editCourseThunk, fetchAllInstructorsThunk  } from '../../store/thunks';
+import { fetchTaskThunk, editTaskThunk, fetchAllEmployeesThunk  } from '../../store/thunks';
 
 
 /*
@@ -38,13 +38,13 @@ functionality of the buttons controlling that portion of the UI.
 
 */
 
-class EditCourseContainer extends Component {
+class EditTaskContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
-          title: "", 
-          timeslot: "",
-          instructorId: null, 
+          description: "", 
+          priority: "",
+          employeeId: null, 
           redirect: false, 
           redirectId: null,
           error: ""
@@ -52,13 +52,13 @@ class EditCourseContainer extends Component {
     }
 
     componentDidMount() {
-        //getting course ID from url
-        this.props.fetchCourse(this.props.match.params.id);
-        this.props.fetchInstructors();
+        //getting task ID from url
+        this.props.fetchTask(this.props.match.params.id);
+        this.props.fetchEmployees();
         this.setState({
-            title: this.props.course.title, 
-            timeslot: this.props.course.timeslot,
-            instructorId: this.props.course.instructorId, 
+            description: this.props.task.description, 
+            priority: this.props.task.priority, 
+            employeeId: this.props.task.employeeId, 
         });
       }
 
@@ -70,34 +70,34 @@ class EditCourseContainer extends Component {
 
     handleSelectChange = event => {
       //handle change for the dropdown menu
-      //want to set the instructorId based on the selected choice
+      //want to set the employeeId based on the selected choice
       //when the form gets submitted, this is how we can change
-      //assigned instructor without having to manually enter in the 
-      //instructorId like before
+      //assigned employee without having to manually enter in the 
+      //employeeId like before
       if (event.target.value === "staff") {
-        this.setState({instructorId:null});
+        this.setState({employeeId:null});
       } else {
-        this.setState({instructorId: event.target.value})
+        this.setState({employeeId: event.target.value})
       }
     }
 
     handleSubmit = event => {
         event.preventDefault();
         //implementing form validation
-        if (this.state.title === "") {
-          this.setState({error: "Error: title cannot be empty"});
+        if (this.state.description === "") {
+          this.setState({error: "Error: description cannot be empty"});
           return;
         }
 
         //get new info for course from form input
-        let course = {
-            id: this.props.course.id,
-            title: this.state.title,
-            timeslot: this.state.timeslot,
-            instructorId: this.state.instructorId
+        let task = {
+            id: this.props.task.id,
+            description: this.state.description,
+            priority: this.state.priority,
+            employeeId: this.state.employeeId
         };
         
-        this.props.editCourse(course);
+        this.props.editTask(task);
 
         this.setState({
           redirect: true, 
@@ -112,38 +112,38 @@ class EditCourseContainer extends Component {
     }
 
     render() {
-        let { course, allInstructors, editCourse, fetchCourse} = this.props;
-        let assignedInstructor = course.instructorId;
+        let { task, allEmployees, editTask, fetchTask} = this.props;
+        let assignedEmployee = task.employeeId;
 
-        let otherInstructors = allInstructors.filter(instructor => instructor.id!==assignedInstructor);
+        let otherEmployees = allEmployees.filter(employee => employee.id!==assignedEmployee);
       
-        //go to single course view of the edited course
+        //go to single task view of the edited task
         if(this.state.redirect) {
-          return (<Redirect to={`/course/${this.state.redirectId}`}/>)
+          return (<Redirect to={`/task/${this.state.redirectId}`}/>)
         }
 
         return (
         <div>
         <form style={{textAlign: 'center'}} onSubmit={(e) => this.handleSubmit(e)}>
-            <label style= {{color:'#11153e', fontWeight: 'bold'}}>Title: </label>
-            <input type="text" name="title" value={this.state.title || ''} placeholder={course.title} onChange ={(e) => this.handleChange(e)}/>
+            <label style= {{color:'#11153e', fontWeight: 'bold'}}>Description: </label>
+            <input type="text" name="description" value={this.state.description || ''} placeholder={task.description} onChange ={(e) => this.handleChange(e)}/>
             <br/>
 
-            <label style={{color:'#11153e', fontWeight: 'bold'}}>Timeslot: </label>
-            <input type="text" name="timeslot" value={this.state.timeslot || ''} placeholder={course.timeslot} onChange={(e) => this.handleChange(e)}/>
+            <label style={{color:'#11153e', fontWeight: 'bold'}}>Priority: </label>
+            <input type="text" name="priority" value={this.state.priority || ''} placeholder={task.priority} onChange={(e) => this.handleChange(e)}/>
             <br/>
 
             <select onChange={(e) => this.handleSelectChange(e)}>
-              {course.instructor!==null ?
-                <option value={course.instructorId}>{course.instructor.firstname+" (current)"}</option>
+              {task.employee!==null ?
+                <option value={task.employeeId}>{task.employee.firstname+" (current)"}</option>
               : <option value="staff">Staff</option>
               }
-              {otherInstructors.map(instructor => {
+              {otherEmployees.map(employee => {
                 return (
-                  <option value={instructor.id} key={instructor.id}>{instructor.firstname}</option>
+                  <option value={employee.id} key={employee.id}>{employee.firstname}</option>
                 )
               })}
-              {course.instructor!==null && <option value="staff">Staff</option>}
+              {task.employee!==null && <option value="staff">Staff</option>}
             </select>
   
             <button type="submit">
@@ -153,22 +153,22 @@ class EditCourseContainer extends Component {
           </form>
           { this.state.error !=="" && <p>{this.state.error}</p> }
 
-          {course.instructorId !== null ?
-            <div> Current instructor:  
-            <Link to={`/instructor/${course.instructorId}`}>{course.instructor.firstname}</Link>
-            <button onClick={async () => {await editCourse({id:course.id, instructorId: null});  fetchCourse(course.id)}}>Unassign</button>
+          {task.employeeId !== null ?
+            <div> Current employee:  
+            <Link to={`/employee/${task.employeeId}`}>{task.employee.firstname}</Link>
+            <button onClick={async () => {await editTask({id:task.id, employeeId: null});  fetchTask(task.id)}}>Unassign</button>
             </div>
-            : <div> No instructor currently assigned </div>
+            : <div> No employee currently assigned </div>
           }
 
-          <div> Other instructors
-          {otherInstructors.map(instructor => {
+          <div> Other employees
+          {otherEmployees.map(employee => {
             return (
-            <div key={instructor.id}>
-                <Link to={`/instructor/${instructor.id}`}>
-                  <h4>{instructor.firstname}</h4>
+            <div key={employee.id}>
+                <Link to={`/employee/${employee.id}`}>
+                  <h4>{employee.firstname}</h4>
                 </Link>
-                <button onClick={async() => {await editCourse({id:course.id, instructorId: instructor.id}); fetchCourse(course.id)}}>Assign this instructor</button>
+                <button onClick={async() => {await editTask({id:task.id, employeeId: employee.id}); fetchTask(task.id)}}>Assign this employee</button>
             </div>
             )})
           }
@@ -181,18 +181,18 @@ class EditCourseContainer extends Component {
 // map state to props
 const mapState = (state) => {
     return {
-      course: state.course,
-      allInstructors: state.allInstructors
+      task: state.task,
+      allEmployees: state.allEmployees
     };
   };
 
 const mapDispatch = (dispatch) => {
     return({
-        editCourse: (course) => dispatch(editCourseThunk(course)),
-        fetchCourse: (id) => dispatch(fetchCourseThunk(id)),
-        fetchInstructors: () => dispatch(fetchAllInstructorsThunk()),
+        editTask: (task) => dispatch(editTaskThunk(task)),
+        fetchTask: (id) => dispatch(fetchTaskThunk(id)),
+        fetchEmployees: () => dispatch(fetchAllEmployeesThunk()),
 
     })
 }
 
-export default connect(mapState, mapDispatch)(EditCourseContainer);
+export default connect(mapState, mapDispatch)(EditTaskContainer);

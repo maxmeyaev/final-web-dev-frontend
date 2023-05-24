@@ -2,18 +2,18 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import NewCourseView from '../views/NewCourseView';
-import { addCourseThunk } from '../../store/thunks';
+import NewEmployeeView from '../views/NewEmployeeView';
+import { addEmployeeThunk } from '../../store/thunks';
 
 
-class NewCourseContainer extends Component {
+class NewEmployeeContainer extends Component {
     constructor(props){
         super(props);
         this.state = {
-          title: "", 
-          timeslot: "",
-          location: "", 
-          instructorId: null, 
+          firstname: '',
+          lastname: '',
+          department: '',
+          employeeId: null, 
           redirect: false, 
           redirectId: null,
           error: ""
@@ -28,23 +28,23 @@ class NewCourseContainer extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-        //dont need ID because the course has not been created yet
-        if(this.state.title===""){
-          this.setState({error:"Title field is required"});
+        //dont need ID because the task has not been created yet
+        if(this.state.firstname===""){
+          this.setState({error:"First name field is required"});
           return;
         }
-        let course = {
-            title: this.state.title,
-            timeslot: this.state.timeslot,
-            location: this.state.location,
-            instructorId: this.state.instructorId
+        let employee = {
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            department: this.state.department,
+            employeeId: this.state.employeeId
         };
         
-        let newCourse = await this.props.addCourse(course);
+        let newEmployee = await this.props.addEmployee(employee);
 
         this.setState({
           redirect: true, 
-          redirectId: newCourse.id,
+          redirectId: newEmployee.id,
           error: ""
         });
     }
@@ -56,13 +56,13 @@ class NewCourseContainer extends Component {
     render() {
       //go to single course view of newly created course
         if(this.state.redirect) {
-          return (<Redirect to={`/course/${this.state.redirectId}`}/>)
+          return (<Redirect to={`/employee/${this.state.redirectId}`}/>)
         }
         return (
-          <NewCourseView 
+          <NewEmployeeView 
             handleChange={this.handleChange} 
             handleSubmit={this.handleSubmit}
-            error={this.state.error}      
+            error={this.state.error}    
           />
         );
     }
@@ -70,8 +70,8 @@ class NewCourseContainer extends Component {
 
 const mapDispatch = (dispatch) => {
     return({
-        addCourse: (course) => dispatch(addCourseThunk(course)),
+        addEmployee: (employee) => dispatch(addEmployeeThunk(employee)),
     })
 }
 
-export default connect(null, mapDispatch)(NewCourseContainer);
+export default connect(null, mapDispatch)(NewEmployeeContainer);
