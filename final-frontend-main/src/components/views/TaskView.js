@@ -10,6 +10,7 @@ const TaskView = (props) => {
           <Typography variant="h6"><b> Assigned Employee</b>: {task.employee.firstname + " " + task.employee.lastname}</Typography>
           : <Typography variant="h6">staff</Typography>}
         <Typography variant="h6"><b>Priority</b>: {task.priority}</Typography>
+        <Typography variant="h6"><b>Task Completion</b>: {task.isComplete ? 'Completed': 'Not Completed'}</Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-evenly', paddingY: '1em'}}>
           <Button variant="contained" component={Link} to={`/edittask/${task.id}`} >Edit Task Information</Button>
           <Button variant="contained" component={Link} to={`/tasks`}>View All Tasks</Button>

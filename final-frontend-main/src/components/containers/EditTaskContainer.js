@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-
 import { fetchTaskThunk, editTaskThunk, fetchAllEmployeesThunk  } from '../../store/thunks';
 
 
@@ -44,6 +43,7 @@ class EditTaskContainer extends Component {
         this.state = {
           description: "", 
           priority: "",
+          isComplete: false, 
           employeeId: null, 
           redirect: false, 
           redirectId: null,
@@ -59,6 +59,7 @@ class EditTaskContainer extends Component {
             description: this.props.task.description, 
             priority: this.props.task.priority, 
             employeeId: this.props.task.employeeId, 
+            isComplete: this.props.task.isComplete,
         });
       }
 
@@ -87,19 +88,26 @@ class EditTaskContainer extends Component {
         if (this.state.description === "") {
           this.setState({error: "Error: description cannot be empty"});
           return;
+        } else if (this.state.priority === "") {
+          this.setState({error: "Error: Priority cannot be empty"});
+          return;
         }
 
-        //get new info for course from form input
+        //get new info for task from form input
         let task = {
             id: this.props.task.id,
             description: this.state.description,
             priority: this.state.priority,
-            employeeId: this.state.employeeId
+            employeeId: this.state.employeeId,
+            isComplete: this.state.isComplete,
         };
         
         this.props.editTask(task);
 
         this.setState({
+          description: this.props.task.description,
+          priority: this.props.task.priority,
+          isComplete: this.props.task.isComplete,
           redirect: true, 
           redirectId: this.props.task.id
         });
