@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Typography, Box, Card, Avatar } from "@mui/material";
+import { Typography, Box, Card, Avatar, Button } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 
 const AllEmployeesView = (props) => {
+  let { deleteEmployee } = props;
   if (!props.allEmployees.length) {
     return <Typography>There are no employees.</Typography>;
   }
@@ -23,7 +24,10 @@ const AllEmployeesView = (props) => {
                   <Typography variant="h4" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>{name}</Typography>
                 </Box>
               </Link>
-                  <Typography variant="h6" sx={{ marginTop: '1em'}}>{employee.department !== null ? employee.department : 'Department has not been specified'}</Typography>
+              <Typography variant="h6" sx={{ marginTop: '1em'}}>{employee.department !== null ? employee.department : 'Department has not been specified'}</Typography>
+              <Box sx={{ paddingY: '2em'}}>
+                <Button variant="contained" color="error" onClick={() => deleteEmployee(employee.id)}>Delete Employee</Button>
+              </Box>
             </Card>
           </div>
         );

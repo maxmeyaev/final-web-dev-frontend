@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-
+import { TextField, Card, Box, Button} from '@mui/material';
 import { fetchEmployeeThunk, editEmployeeThunk, fetchAllTasksThunk } from '../../store/thunks';
 
 
@@ -25,9 +26,9 @@ class EditEmployeeContainer extends Component {
         this.props.fetchEmployee(this.props.match.params.id);
         this.props.fetchAllTasks();
         this.setState({
-            firstname: this.props.task.firstname, 
-            lastname: this.props.task.lastname,  
-            department: this.props.task.department,  
+            firstname: this.props.employee.firstname, 
+            lastname: this.props.employee.lastname,  
+            department: this.props.employee.department,  
         });
       }
 
@@ -70,21 +71,22 @@ class EditEmployeeContainer extends Component {
 
         this.setState({
           redirect: true, 
-          redirectId: this.props.employee.id
+          firstname: this.props.employee.firstname,
+          lastname: this.props.employee.lastname,
+          department: this.props.employee.department,
+          redirectId: this.props.employee.id,
         });
-
     }
 
     componentWillUnmount() {
         this.setState({redirect: false, redirectId: null});
-
     }
 
     render() {
-        let { employee, allTasks, editTask, fetchTask} = this.props;
-        let assignedEmployee = employee.id;
+        let { employee, allTasks } = this.props;
+        let assignedEmployee = employee.employeeId;
 
-        let otherEmployees = allTasks.filter(task => task.id!==assignedEmployee);
+        // let otherEmployees = allTasks.filter(task => task.id!==assignedEmployee);
       
         //go to employee view of the edited task
         if(this.state.redirect) {
@@ -92,55 +94,44 @@ class EditEmployeeContainer extends Component {
         }
         return (
         <div>
-        <form style={{textAlign: 'center'}} onSubmit={(e) => this.handleSubmit(e)}>
-            <label style= {{color:'#11153e', fontWeight: 'bold'}}>First name: </label>
-            <input type="text" name="firstname" value={this.state.firstname || ''} placeholder={employee.firstname} onChange ={(e) => this.handleChange(e)}/>
-            <br/>
-
-            <label style={{color:'#11153e', fontWeight: 'bold'}}>Last Name: </label>
-            <input type="text" name="lastname" value={this.state.lastname || ''} placeholder={employee.lastname} onChange={(e) => this.handleChange(e)}/>
-            <br/>
-
-            {/* <select onChange={(e) => this.handleSelectChange(e)}>
-              {task.employee!==null ?
-                <option value={task.employeeId}>{task.employee.firstname+" (current)"}</option>
-              : <option value="staff">Staff</option>
-              }
-              {otherEmployees.map(employee => {
-                return (
-                  <option value={employee.id} key={employee.id}>{employee.firstname}</option>
-                )
-              })}
-              {task.employee!==null && <option value="staff">Staff</option>}
-            </select> */}
-  
-            <button type="submit">
-              Submit
-            </button>
-
+        <form style={{textAlign: 'center', display: 'flex', justifyContent: 'center'}} onSubmit={(e) => this.handleSubmit(e)}>
+            <Card sx={{ width: 600, paddingTop: '1em'}}>
+                <Box sx={{paddingY: '1em'}}>
+                    <TextField 
+                        type='text' 
+                        label="First Name" 
+                        name="firstname"
+                        value={this.state.firstname}
+                        onChange ={(e) => this.handleChange(e)}
+                    />
+                </Box>
+                <Box sx={{paddingY: '1em'}}>
+                    <TextField 
+                        type='text' 
+                        label="Last Name" 
+                        name="lastname"
+                        value={this.state.lastname}
+                        onChange ={(e) => this.handleChange(e)}
+                    />
+                </Box>
+                <Box sx={{paddingY: '1em'}}>
+                    <TextField 
+                        type='text' 
+                        label="Department" 
+                        name="department"
+                        value={this.state.department}
+                        onChange ={(e) => this.handleChange(e)}
+                    />
+                </Box>
+                <Box sx={{paddingY: '1em'}}>
+                    <Button
+                        variant="outlined"
+                        type="submit"
+                    > Submit</Button>
+                </Box>
+            </Card>
           </form>
           { this.state.error !=="" && <p>{this.state.error}</p> }
-
-          {/* {task.employeeId !== null ?
-            <div> Current employee:  
-            <Link to={`/employee/${task.employeeId}`}>{task.employee.firstname}</Link>
-            <button onClick={async () => {await editTask({id:task.id, employeeId: null});  fetchTask(task.id)}}>Unassign</button>
-            </div>
-            : <div> No employee currently assigned </div>
-          } */}
-
-          <div> Other employees
-          {otherEmployees.map(task => {
-            return (
-            <div key={task.id}>
-                <Link to={`/tasks/${task.id}`}>
-                  <h4>{task.description}</h4>
-                </Link>
-                <button onClick={async() => {await editTask({id:task.id, employeeId: employee.id}); fetchTask(task.id)}}>Assign this employee</button>
-            </div>
-            )})
-          }
-          </div>
         </div>
         )
     }
@@ -149,8 +140,8 @@ class EditEmployeeContainer extends Component {
 // map state to props
 const mapState = (state) => {
     return {
-      task: state.task,
-      allEmployees: state.allEmployees
+      employee: state.employee,
+      allTasks: state.allTasks
     };
   };
 
@@ -159,7 +150,6 @@ const mapDispatch = (dispatch) => {
         editEmployee: (employee) => dispatch(editEmployeeThunk(employee)),
         fetchEmployee: (id) => dispatch(fetchEmployeeThunk(id)),
         fetchAllTasks: () => dispatch(fetchAllTasksThunk()),
-
     })
 }
 

@@ -10,7 +10,6 @@ const employee = (state = initialState, action) => {
             return action.payload;
         default: 
             return state;
-
     }
 }
 
